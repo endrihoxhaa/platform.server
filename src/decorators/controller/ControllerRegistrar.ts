@@ -23,7 +23,7 @@ export class ControllerRegistrar implements Registrar {
         this._container.registerAll([...methodRoute.guards, ...methodRoute.interceptors])
 
         Server.router.registerRoute({
-          key: `${controller.key}/${methodRoute.key}`,
+          key: `${controller.key}.${methodRoute.key}`,
           guards: [...controller.guards, ...methodRoute.guards],
           interceptors: [...controller.interceptors, ...methodRoute.interceptors],
           controller: controller.payload,
@@ -31,7 +31,7 @@ export class ControllerRegistrar implements Registrar {
         })
       } else {
         Server.router.registerRoute({
-          key: `${controller.key}/${methodName}`,
+          key: `${controller.key}.${methodName}`,
           guards: controller.guards,
           interceptors: controller.interceptors,
 

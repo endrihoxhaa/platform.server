@@ -3,7 +3,7 @@ import { log } from 'console'
 const response = await Bun.build({
   entrypoints: ['src/index.ts'],
   target: 'bun',
-  outdir: 'build',
+  outdir: 'dist',
   sourcemap: 'none',
   format: 'esm',
   splitting: false,

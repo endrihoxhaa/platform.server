@@ -58,10 +58,12 @@ export class Router {
   }
 
   request = async (request: Message): Promise<Message> => {
-    const routeName = request.getHeader('route')
+    const routeName = request.target.split('|')[1]
+  
 
     const response = new Message()
     response.setRef(request.id)
+
 
     const route = this._routes.get(routeName)
     if (!route) {
@@ -79,6 +81,7 @@ export class Router {
 
     await this._interceptorProcessor.onRequest(route, request)
 
+    response.setType(MessageType.RESPONSE)
     const payload = await route.requestHandler(request, response)
     if (payload) response.setPayload(payload)
 
@@ -90,6 +93,9 @@ export class Router {
     }
 
     await this._interceptorProcessor.onRespond(route, response)
+
+    // set response time to live the request remain time from created timestamp
+    response.setTTL(request.remainTime)
 
     return response
   }
