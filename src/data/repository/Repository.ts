@@ -70,7 +70,7 @@ export class Repository<EntityType = any, ModelType = any> {
   }
 
   async readOneById(id: string, options?: QueryOptions<EntityType>) {
-    const filter: QueryFilter = { id }
+    const filter: QueryFilter = { _id: id }
     const query = this.query().readOne(filter).options(options).build()
     return this.execute<EntityType | ModelType>(query)
   }
@@ -92,7 +92,7 @@ export class Repository<EntityType = any, ModelType = any> {
   }
 
   async updateOneById(id: string, updateOperations: Partial<EntityType>, options?: QueryOptions<EntityType>) {
-    const filter: QueryFilter = { id }
+    const filter: QueryFilter = { _id: id }
     const query = this.query().updateOne(filter, updateOperations).options(options).build()
     return this.execute<EntityType | ModelType>(query)
   }
