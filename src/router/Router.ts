@@ -59,11 +59,10 @@ export class Router {
 
   request = async (request: Message): Promise<Message> => {
     const routeName = request.target.split('|')[1]
-  
 
     const response = new Message()
+    // response.setHeaders(request.headers)
     response.setRef(request.id)
-
 
     const route = this._routes.get(routeName)
     if (!route) {

@@ -56,45 +56,45 @@ export class Repository<EntityType = any, ModelType = any> {
 
   async createMany(entities: ClearEntity<EntityType>[], options?: QueryOptions<EntityType>) {
     const query = this.query().createMany(entities).options(options).build()
-    return this.execute<QueryResponse<EntityType[]>>(query)
+    return this.execute<(EntityType | ModelType)[]>(query)
   }
 
   async readMany(filter?: QueryFilter, options?: QueryOptions<EntityType>) {
     const query = this.query().readMany(filter).options(options).build()
-    return this.execute<QueryResponse<EntityType[]>>(query)
+    return this.execute<(EntityType | ModelType)[]>(query)
   }
 
   async readOne(filter: QueryFilter, options?: QueryOptions<EntityType>) {
     const query = this.query().readOne(filter).options(options).build()
-    return this.execute<QueryResponse<EntityType>>(query)
+    return this.execute<EntityType | ModelType>(query)
   }
 
   async readOneById(id: string, options?: QueryOptions<EntityType>) {
     const filter: QueryFilter = { id }
     const query = this.query().readOne(filter).options(options).build()
-    return this.execute<QueryResponse<EntityType>>(query)
+    return this.execute<EntityType | ModelType>(query)
   }
 
   async readOneByKey<Key extends keyof EntityType>(key: Key, value: EntityType[Key], options?: QueryOptions<EntityType>) {
     const filter: QueryFilter = { [key]: value }
     const query = this.query().readOne(filter).options(options).build()
-    return this.execute<QueryResponse<EntityType>>(query)
+    return this.execute<EntityType | ModelType>(query)
   }
 
   async updateMany(filter: QueryFilter, updateOperations: Partial<EntityType>) {
     const query = this.query().updateMany(filter, updateOperations).build()
-    return this.execute<QueryResponse<EntityType[]>>(query)
+    return this.execute<(EntityType | ModelType)[]>(query)
   }
 
   async updateOne(filter: QueryFilter, updateOperations: Partial<EntityType>) {
     const query = this.query().updateOne(filter, updateOperations).build()
-    return this.execute<QueryResponse<EntityType>>(query)
+    return this.execute<EntityType | ModelType>(query)
   }
 
   async updateOneById(id: string, updateOperations: Partial<EntityType>, options?: QueryOptions<EntityType>) {
     const filter: QueryFilter = { id }
     const query = this.query().updateOne(filter, updateOperations).options(options).build()
-    return this.execute<QueryResponse<EntityType>>(query)
+    return this.execute<EntityType | ModelType>(query)
   }
 
   async updateOneByKey<Key extends keyof EntityType>(
@@ -105,7 +105,7 @@ export class Repository<EntityType = any, ModelType = any> {
   ) {
     const filter: QueryFilter = { [key]: value }
     const query = this.query().updateOne(filter, updateOperations).options(options).build()
-    return this.execute<QueryResponse<EntityType>>(query)
+    return this.execute<EntityType | ModelType>(query)
   }
 
   async deleteMany(filter: QueryFilter) {
@@ -115,18 +115,18 @@ export class Repository<EntityType = any, ModelType = any> {
 
   async deleteOne(filter: QueryFilter) {
     const query = this.query().deleteOne(filter).build()
-    return this.execute<QueryResponse<EntityType>>(query)
+    return this.execute<EntityType | ModelType>(query)
   }
 
   async deleteOneById(id: string, options?: QueryOptions<EntityType>) {
     const filter: QueryFilter = { id }
     const query = this.query().deleteOne(filter).options(options).build()
-    return this.execute<QueryResponse<EntityType>>(query)
+    return this.execute<EntityType | ModelType>(query)
   }
 
   async deleteOneByKey<Key extends keyof EntityType>(key: Key, value: EntityType[Key], options?: QueryOptions<EntityType>) {
     const filter: QueryFilter = { [key]: value }
     const query = this.query().deleteOne(filter).options(options).build()
-    return this.execute<QueryResponse<EntityType>>(query)
+    return this.execute<EntityType | ModelType>(query)
   }
 }
