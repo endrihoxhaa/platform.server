@@ -58,7 +58,11 @@ export class Router {
   }
 
   request = async (request: Message): Promise<Message> => {
-    const routeName = request.target.split('|')[1]
+    let routeName = request.target
+
+    if (request.target.includes('|')) 
+      routeName = request.target.split('|')[1]
+    
 
     const response = new Message()
     // response.setHeaders(request.headers)

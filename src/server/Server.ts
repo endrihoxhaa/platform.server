@@ -15,7 +15,7 @@ export class Server {
 
   static boot() {
 
-    Logger.log('Server booting')
+    // Logger.log('Server booting')
 
     Server.container.register(Server.rootModule)
 
@@ -38,21 +38,21 @@ export class Server {
     Server.container.resolveSync(Server.rootModule)
     Server.router.onBootstraped()
 
-    Logger.log('Server booted')
+    // Logger.log('Server booted')
   }
 
   static async init() {
     await Server.container.instanceManager.runAsync('onInit', '*')
-    Logger.log('Server initialized')
+    // Logger.log('initialized')
   }
 
   static async start() {
     await Server.container.instanceManager.runAsync('onStart', '*')
-    Logger.log('Server started')
+    // Logger.log('started')
   }
 
   static async stop() {
     await Server.container.instanceManager.runAsync('onStop', '*')
-    Logger.log('Server stopped')
+    // Logger.log('stopped')
   }
 }
