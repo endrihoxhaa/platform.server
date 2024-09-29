@@ -34,7 +34,7 @@ export class Router {
     this._routeRegistry.push(route)
   }
 
-  onBootstraped() {
+  init() {
     for (const routeReg of this._routeRegistry) {
       const guardInstances = Server.container.resolveSyncAll(routeReg.guards) as Guard[]
       const interceptorInstances = Server.container.resolveSyncAll(routeReg.interceptors) as Interceptor[]
@@ -58,14 +58,9 @@ export class Router {
   }
 
   request = async (request: Message): Promise<Message> => {
-    let routeName = request.target
-
-    if (request.target.includes('|')) 
-      routeName = request.target.split('|')[1]
-    
+    let routeName = request.targetRouteID
 
     const response = new Message()
-    // response.setHeaders(request.headers)
     response.setRef(request.id)
 
     const route = this._routes.get(routeName)

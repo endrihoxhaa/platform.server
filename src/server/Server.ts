@@ -1,23 +1,30 @@
 import { Router } from '#router/Router'
 import { Container, Logger, Network, ProviderClass } from 'platform'
-Logger.setNamespace('SERVER')
 
 export class Server {
-  static logger: Logger = new Logger('SERVER')
   static container: Container = new Container()
+  static logger: Logger = new Logger('SERVER')
   static router: Router = new Router()
   static network: Network = new Network()
-  static rootModule: ProviderClass
 
-  static setRoot(rootModule: ProviderClass) {
-    Server.rootModule = rootModule
+  get router() {
+    return Server.router
   }
 
-  static boot() {
+  get network() {
+    return Server.network
+  }
 
-    // Logger.log('Server booting')
+  get container() {
+    return Server.container
+  }
 
-    Server.container.register(Server.rootModule)
+  get logger() {
+    return Server.logger
+  }
+
+  static boot(root: ProviderClass) {
+    Server.container.register(root)
 
     Server.container.registerManual({
       type: 'type:value',
@@ -35,24 +42,32 @@ export class Server {
       properties: [],
     })
 
-    Server.container.resolveSync(Server.rootModule)
-    Server.router.onBootstraped()
+    Server.container.resolveSync(root)
+    Server.router.init()
 
     // Logger.log('Server booted')
   }
 
   static async init() {
+    await Server.container.instanceManager.runAsync('onInitBefore', '*')
     await Server.container.instanceManager.runAsync('onInit', '*')
+    await Server.container.instanceManager.runAsync('onInitAfter', '*')
     // Logger.log('initialized')
   }
 
   static async start() {
+    await Server.container.instanceManager.runAsync('onStartBefore', '*')
     await Server.container.instanceManager.runAsync('onStart', '*')
+    await Server.container.instanceManager.runAsync('onStartAfter', '*')
     // Logger.log('started')
   }
 
   static async stop() {
+    await Server.container.instanceManager.runAsync('onStopBefore', '*')
     await Server.container.instanceManager.runAsync('onStop', '*')
+    await Server.container.instanceManager.runAsync('onStopAfter', '*')
     // Logger.log('stopped')
   }
 }
+
+export const server = new Server()

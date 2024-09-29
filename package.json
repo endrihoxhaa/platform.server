@@ -13,5 +13,8 @@
     "version:minor": "bun run scripts/script.version.ts -t minor",
     "version:patch": "bun run scripts/script.version.ts -t patch",
     "release": "bun run version && bun run build  && bun run scripts/script.release.ts"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.7.26"
   }
 }

@@ -5,7 +5,7 @@ await tsup.build({
   outDir: 'dist',
   dts: true,
   format: ['esm'],
-  platform: 'neutral',
+  platform: 'node',
   watch: true,
 })
 
